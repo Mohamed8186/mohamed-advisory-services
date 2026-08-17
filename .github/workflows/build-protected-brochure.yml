@@ -34,13 +34,50 @@ jobs:
           import os, secrets
           import fitz
           import qrcode
-          from weasyprint import HTML
+          from weasyprint import HTML, CSS
 
           site_url = 'https://mohamed8186.github.io/mohamed-advisory-services/'
           output = 'downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf'
 
           qrcode.make(site_url).save('brochure/site-qr.png')
-          HTML(filename='brochure/profile.html', base_url=os.getcwd()).write_pdf('build/source.pdf')
+          with open('brochure/profile.html', 'r', encoding='utf-8') as source_file:
+              html_text = source_file.read()
+          html_text = html_text.replace('../assets/profile.webp', 'assets/profile.webp')
+          html_text = html_text.replace('src="site-qr.png"', 'src="brochure/site-qr.png"')
+
+          compact_last_page = r'''
+          .page { break-inside: avoid; page-break-inside: avoid; }
+          .page:last-child { padding: 10mm 14mm; }
+          .page:last-child .page-title { margin-bottom: 3mm; padding-bottom: 2.5mm; }
+          .page:last-child .page-title h2 { font-size: 21px; }
+          .page:last-child .page-title .ar { font-size: 16px; }
+          .page:last-child .why-grid { grid-template-columns: 1.04fr .96fr; gap: 4mm; }
+          .page:last-child .why-list { gap: 2mm; }
+          .page:last-child .why { padding: 3mm; min-height: 27mm; }
+          .page:last-child .why b { font-size: 11.5px; margin-bottom: .8mm; }
+          .page:last-child .why p { font-size: 8.2px; line-height: 1.32; margin-bottom: .8mm; }
+          .page:last-child .modes { margin-top: 2.5mm; gap: 1.5mm; }
+          .page:last-child .modes span { font-size: 7.5px; padding: 1.2mm 2.6mm; }
+          .page:last-child .lab { padding: 4.5mm; border-radius: 4mm; }
+          .page:last-child .lab .eyebrow { font-size: 8px; }
+          .page:last-child .lab h2 { font-size: 17px; margin: 1.2mm 0; }
+          .page:last-child .lab .ar { font-size: 11px; margin-bottom: 2mm; }
+          .page:last-child .lab p { font-size: 8.3px; line-height: 1.38; margin-bottom: 1.5mm; }
+          .page:last-child .flow { margin: 2.5mm 0; gap: 1.3mm; }
+          .page:last-child .flow span { font-size: 7.2px; padding: 1.1mm 2.2mm; }
+          .page:last-child .cta-panel { margin-top: 3mm; padding: 3mm; grid-template-columns: 1fr 22mm; gap: 2.5mm; }
+          .page:last-child .cta-panel h3 { font-size: 13px; margin-bottom: .8mm; }
+          .page:last-child .cta-panel p { font-size: 7.8px; line-height: 1.34; margin-bottom: .8mm; }
+          .page:last-child .badge { font-size: 7.5px; padding: 1.3mm 2.8mm; }
+          .page:last-child .qr { width: 21mm; height: 21mm; }
+          .page:last-child .disclaimer { font-size: 6.1px; margin-top: 1.6mm; line-height: 1.28; }
+          .page:last-child .footer { left: 14mm; right: 14mm; bottom: 3.5mm; font-size: 6.5px; }
+          '''
+
+          HTML(string=html_text, base_url=os.getcwd()).write_pdf(
+              'build/source.pdf',
+              stylesheets=[CSS(string=compact_last_page)]
+          )
 
           source = fitz.open('build/source.pdf')
           flat = fitz.open()
@@ -75,7 +112,7 @@ jobs:
           check = fitz.open(output)
           if check.needs_pass:
               check.authenticate('')
-          assert 4 <= check.page_count <= 5, check.page_count
+          assert check.page_count == 4, check.page_count
           assert size > 100000, size
           print(f'Protected brochure created: {size} bytes, {check.page_count} pages')
           check.close()
