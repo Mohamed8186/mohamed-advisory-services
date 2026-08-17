@@ -57,7 +57,7 @@ jobs:
               'keywords': 'Tendering, Procurement, Supply Chain, Contracts, Project Management, Advisory',
               'creator': 'Mohamed Salaheldin Advisory'
           })
-          owner_password = secrets.token_hex(32)
+          owner_password = secrets.token_hex(20)
           flat.save(
               output,
               encryption=fitz.PDF_ENCRYPT_AES_256,
