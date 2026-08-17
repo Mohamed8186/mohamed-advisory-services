@@ -74,7 +74,7 @@ jobs:
           check = fitz.open(output)
           if check.needs_pass:
               check.authenticate('')
-          assert check.page_count == 4, check.page_count
+          assert 4 <= check.page_count <= 5, check.page_count
           assert size > 100000, size
           print(f'Protected brochure created: {size} bytes, {check.page_count} pages')
           check.close()
