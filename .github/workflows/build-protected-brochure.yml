@@ -1,0 +1,89 @@
+name: Build protected advisory brochure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - asset-fix-20260817
+    paths:
+      - 'brochure/profile.html'
+      - '.github/workflows/build-protected-brochure.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system fonts and rendering libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-core fonts-noto-extra libcairo2 libpango-1.0-0 libpangoft2-1.0-0 libgdk-pixbuf-2.0-0 shared-mime-info
+
+      - name: Install Python packages
+        run: python -m pip install --upgrade weasyprint pymupdf 'qrcode[pil]'
+
+      - name: Generate QR, flatten and protect the brochure
+        run: |
+          mkdir -p build downloads
+          python <<'PY'
+          import os, secrets
+          import fitz
+          import qrcode
+          from weasyprint import HTML
+
+          site_url = 'https://mohamed8186.github.io/mohamed-advisory-services/'
+          output = 'downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf'
+
+          qrcode.make(site_url).save('brochure/site-qr.png')
+          HTML(filename='brochure/profile.html', base_url=os.getcwd()).write_pdf('build/source.pdf')
+
+          source = fitz.open('build/source.pdf')
+          flat = fitz.open()
+          matrix = fitz.Matrix(1.55, 1.55)
+          for source_page in source:
+              pix = source_page.get_pixmap(matrix=matrix, alpha=False)
+              page = flat.new_page(width=source_page.rect.width, height=source_page.rect.height)
+              page.insert_image(source_page.rect, pixmap=pix)
+
+          flat.set_metadata({
+              'title': 'Mohamed Salaheldin Advisory Profile',
+              'author': 'Mohamed Salaheldin',
+              'subject': 'Independent Business & Project Advisory Services',
+              'keywords': 'Tendering, Procurement, Supply Chain, Contracts, Project Management, Advisory',
+              'creator': 'Mohamed Salaheldin Advisory'
+          })
+          owner_password = secrets.token_hex(32)
+          flat.save(
+              output,
+              encryption=fitz.PDF_ENCRYPT_AES_256,
+              owner_pw=owner_password,
+              user_pw='',
+              permissions=0,
+              garbage=4,
+              deflate=True
+          )
+          flat.close()
+          source.close()
+
+          size = os.path.getsize(output)
+          check = fitz.open(output)
+          if check.needs_pass:
+              check.authenticate('')
+          assert check.page_count == 4, check.page_count
+          assert size > 100000, size
+          print(f'Protected brochure created: {size} bytes, {check.page_count} pages')
+          check.close()
+          PY
+
+      - name: Commit the generated protected PDF
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf
+          git commit -m 'Generate protected advisory brochure PDF' || exit 0
+          git push origin HEAD:${GITHUB_REF_NAME}
