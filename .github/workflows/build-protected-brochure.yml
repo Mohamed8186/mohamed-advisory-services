@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p build/previews downloads
           python <<'PY'
-          import os, secrets
+          import os, re, secrets
           import fitz
           import qrcode
           from weasyprint import HTML, CSS
@@ -44,6 +44,12 @@ jobs:
               html_text = source_file.read()
           html_text = html_text.replace('../assets/profile.webp', 'assets/profile.webp')
           html_text = html_text.replace('src="site-qr.png"', 'src="brochure/site-qr.png"')
+          html_text = re.sub(
+              r'<div class="disclaimer">.*?</div>',
+              '<div class="disclaimer">Services may be delivered with relevant specialists where required. | قد تُقدم بعض الخدمات بالتنسيق مع مختصين بحسب نطاق التكليف.</div>',
+              html_text,
+              flags=re.S,
+          )
 
           compact_last_page = r'''
           .page { break-inside: avoid; page-break-inside: avoid; }
@@ -70,7 +76,17 @@ jobs:
           .page:last-child .cta-panel p { font-size: 7.8px; line-height: 1.34; margin-bottom: .8mm; }
           .page:last-child .badge { font-size: 7.5px; padding: 1.3mm 2.8mm; }
           .page:last-child .qr { width: 21mm; height: 21mm; }
-          .page:last-child .disclaimer { font-size: 6.1px; margin-top: 1.6mm; line-height: 1.28; }
+          .page:last-child .disclaimer {
+              position: absolute;
+              left: 14mm;
+              right: 14mm;
+              bottom: 8mm;
+              margin: 0;
+              font-size: 5.7px;
+              line-height: 1.15;
+              white-space: nowrap;
+              overflow: hidden;
+          }
           .page:last-child .footer { left: 14mm; right: 14mm; bottom: 3.5mm; font-size: 6.5px; }
           '''
 
@@ -112,7 +128,7 @@ jobs:
           check = fitz.open(output)
           if check.needs_pass:
               check.authenticate('')
-          assert 4 <= check.page_count <= 5, check.page_count
+          assert check.page_count == 4, check.page_count
           assert size > 100000, size
           print(f'Protected brochure created: {size} bytes, {check.page_count} pages')
           check.close()
