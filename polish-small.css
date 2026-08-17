@@ -1,0 +1,22 @@
+/* Final mobile, visual and navigation polish */
+.actions{direction:ltr!important;unicode-bidi:isolate;flex-wrap:nowrap!important}.actions .pill{display:inline-flex!important;align-items:center;justify-content:center;white-space:nowrap}
+.hero{background:linear-gradient(90deg,rgba(7,24,42,.98),rgba(7,24,42,.89) 54%,rgba(7,24,42,.62)),url("assets/hero-industrial.jpg") center/cover!important}
+.portrait{background-image:url("assets/profile.jpg")!important;background-size:cover!important;background-position:center!important;border-radius:46% 54% 48% 52% / 48% 45% 55% 52%!important}
+.portrait span{display:none!important}
+.profile-pdf-btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff}
+.category-chips{display:flex;gap:8px;overflow-x:auto;padding:12px 1px 9px;scrollbar-width:none}.category-chips::-webkit-scrollbar{display:none}.category-chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;cursor:pointer;font-size:.79rem;font-weight:800;color:var(--ink)}.category-chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.select.polish-hidden{display:none!important}
+.signature-section{margin-top:0;padding:42px 0;background:linear-gradient(135deg,var(--navy),#0e3654);color:#fff}.signature-wrap{width:min(1180px,calc(100% - 32px));margin:auto;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}.signature-label{display:inline-flex;border:1px solid rgba(214,160,120,.55);color:var(--copper2);border-radius:999px;padding:6px 10px;font-weight:900;font-size:.72rem;letter-spacing:.06em}.signature-section h2{font-size:clamp(1.8rem,3.6vw,3rem);margin:.5rem 0 .6rem}.signature-section p{color:rgba(255,255,255,.8)}.signature-flow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.signature-flow div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:15px}.signature-flow b{display:block;color:var(--copper2);font-size:.75rem}.signature-flow span{font-weight:800}
+.signature-mini{margin:12px 0;padding:13px;border:1px solid rgba(185,121,77,.24);border-radius:14px;background:#fffaf4}.signature-mini strong{display:block;color:var(--copper);margin-bottom:4px}.signature-mini p{margin:0;color:var(--muted);font-size:.9rem}.mini-flow{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.mini-flow span{padding:5px 8px;border-radius:999px;background:var(--ivory);font-size:.72rem;font-weight:800;color:var(--navy2)}
+.service-modal-card{padding-top:0!important}.service-modal-card>.service{padding-top:62px!important}.service-modal-close{top:14px!important;inset-inline-end:14px!important;right:auto!important;left:auto!important}
+.service .contact .mini{min-height:38px;display:inline-flex;align-items:center}
+.polish-pdf-link{cursor:pointer}
+@media(max-width:900px){.signature-wrap{grid-template-columns:1fr}}
+@media(max-width:620px){
+ .brand b{font-size:.79rem!important}.actions{gap:4px!important}.actions .pill{padding:7px 8px!important;min-width:34px!important;font-size:.7rem!important}.topbar .inner{gap:7px!important}
+ .hero h1{font-size:2.35rem!important}.hero p{font-size:1.02rem!important;line-height:1.62!important}.portrait{width:170px!important}
+ .profile-pdf-btn{padding:7px 9px!important;font-size:.7rem!important}
+ .signature-wrap{width:min(100% - 22px,1180px);gap:20px}.signature-flow{grid-template-columns:repeat(2,1fr)}
+ .service-modal{padding:12px!important}.service-modal-card{padding:0!important}.service-modal-card>.service{padding:60px 17px 17px!important;border-radius:20px!important}.service-modal-close{top:12px!important;inset-inline-end:12px!important}
+ .category-chips{margin-inline:-2px}
+}
