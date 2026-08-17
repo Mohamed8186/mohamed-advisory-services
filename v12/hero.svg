@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 700" role="img" aria-label="Industrial engineering and project advisory landscape">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07182a"/><stop offset=".55" stop-color="#0d3150"/><stop offset="1" stop-color="#07182a"/></linearGradient>
+  <radialGradient id="glow" cx="78%" cy="42%" r="42%"><stop stop-color="#bd7c4d" stop-opacity=".34"/><stop offset="1" stop-color="#bd7c4d" stop-opacity="0"/></radialGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6ca0bd" stop-opacity=".42"/><stop offset="1" stop-color="#163b56" stop-opacity=".08"/></linearGradient>
+  <filter id="blur"><feGaussianBlur stdDeviation="16"/></filter>
+</defs>
+<rect width="1800" height="700" fill="url(#bg)"/><rect width="1800" height="700" fill="url(#glow)"/>
+<g stroke="#9bb3c3" stroke-opacity=".08" stroke-width="1">
+  <path d="M0 90H1800M0 180H1800M0 270H1800M0 360H1800M0 450H1800M0 540H1800M0 630H1800"/>
+  <path d="M90 0V700M180 0V700M270 0V700M360 0V700M450 0V700M540 0V700M630 0V700M720 0V700M810 0V700M900 0V700M990 0V700M1080 0V700M1170 0V700M1260 0V700M1350 0V700M1440 0V700M1530 0V700M1620 0V700M1710 0V700"/>
+</g>
+<ellipse cx="1410" cy="320" rx="330" ry="190" fill="#bd7c4d" opacity=".10" filter="url(#blur)"/>
+<g transform="translate(970 135)">
+  <path d="M0 390H760" stroke="#d6a078" stroke-opacity=".42" stroke-width="3"/>
+  <g fill="url(#glass)" stroke="#90a9ba" stroke-opacity=".38" stroke-width="2">
+    <path d="M52 390V245H168V390Z"/><path d="M176 390V178H318V390Z"/><path d="M330 390V220H430V390Z"/><path d="M446 390V142H560V390Z"/><path d="M574 390V268H708V390Z"/>
+    <path d="M206 178V116H284V178Z"/><path d="M474 142V62H532V142Z"/>
+  </g>
+  <g fill="none" stroke="#d6a078" stroke-opacity=".72" stroke-width="4">
+    <path d="M92 245V118H132V245M102 118V70H122V118"/>
+    <path d="M355 220V100H400V220M366 100V46H389V100"/>
+    <path d="M620 268V156H658V268M630 156V94H648V156"/>
+  </g>
+  <g stroke="#9bb3c3" stroke-opacity=".35" stroke-width="2">
+    <path d="M40 316H730M40 346H730"/>
+    <path d="M198 178H308M459 142H548"/>
+    <path d="M318 206L430 232M560 130L708 278"/>
+  </g>
+  <g fill="#d6a078" opacity=".72"><circle cx="112" cy="70" r="6"/><circle cx="377" cy="46" r="6"/><circle cx="639" cy="94" r="6"/></g>
+</g>
+<g transform="translate(1170 520)" fill="none" stroke="#d6a078" stroke-opacity=".32" stroke-width="2">
+  <path d="M0 80L220 0L470 80"/><path d="M65 80L220 26L400 80"/><path d="M130 80L220 50L330 80"/>
+</g>
+<g transform="translate(1270 80)" fill="none" stroke="#d6a078" stroke-opacity=".38" stroke-width="2">
+  <circle cx="140" cy="140" r="122"/><circle cx="140" cy="140" r="92"/><path d="M140 18V262M18 140H262M54 54L226 226M226 54L54 226"/>
+</g>
+<g fill="#fff" fill-opacity=".04"><path d="M920 610H1800V700H920Z"/><path d="M1100 566H1800V610H1100Z"/></g>
+</svg>
