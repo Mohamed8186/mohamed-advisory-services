@@ -27,9 +27,9 @@ jobs:
       - name: Install Python packages
         run: python -m pip install --upgrade weasyprint pymupdf 'qrcode[pil]'
 
-      - name: Generate QR, flatten and protect the brochure
+      - name: Generate QR, previews, flatten and protect the brochure
         run: |
-          mkdir -p build downloads
+          mkdir -p build/previews downloads
           python <<'PY'
           import os, secrets
           import fitz
@@ -45,8 +45,9 @@ jobs:
           source = fitz.open('build/source.pdf')
           flat = fitz.open()
           matrix = fitz.Matrix(1.55, 1.55)
-          for source_page in source:
+          for index, source_page in enumerate(source, start=1):
               pix = source_page.get_pixmap(matrix=matrix, alpha=False)
+              pix.save(f'build/previews/page-{index}.png')
               page = flat.new_page(width=source_page.rect.width, height=source_page.rect.height)
               page.insert_image(source_page.rect, pixmap=pix)
 
@@ -79,6 +80,17 @@ jobs:
           print(f'Protected brochure created: {size} bytes, {check.page_count} pages')
           check.close()
           PY
+
+      - name: Upload brochure QA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: brochure-qa-${{ github.run_number }}
+          path: |
+            downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf
+            build/source.pdf
+            build/previews/*.png
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Commit the generated protected PDF
         run: |
