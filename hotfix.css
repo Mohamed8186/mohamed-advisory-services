@@ -1,0 +1,19 @@
+/* v1.1 mobile/readability hotfix */
+@media (max-width:620px){
+  .topbar .inner{gap:7px;min-height:62px}
+  .brand{min-width:0;gap:8px}
+  .brand b{font-size:.8rem;white-space:nowrap}
+  .mark{width:34px;height:34px;border-radius:10px;flex:0 0 auto}
+  .actions{gap:4px;flex-wrap:nowrap;flex:0 0 auto}
+  .actions .pill,.actions .pill:not(.active){display:inline-flex!important;align-items:center;justify-content:center;padding:7px 8px;min-width:34px;font-size:.72rem;line-height:1}
+  .hero h1{font-size:2.35rem}
+  .hero p{font-size:1.02rem;line-height:1.6}
+  .choice strong,.challenge strong{font-size:1.02rem}
+  .choice span,.challenge span{font-size:.94rem;line-height:1.5}
+  .service h4{font-size:1.12rem;line-height:1.4}
+  .service .pain,.service .out{font-size:.96rem;line-height:1.55}
+  .lib b{font-size:1rem;line-height:1.4}
+  .lib span{font-size:.93rem;line-height:1.5}
+}
+.library-count{margin:8px 0 2px;color:var(--muted);font-size:.86rem;font-weight:700}
+.site-version{opacity:.58;font-size:.68rem;margin-top:5px}
