@@ -1,9 +1,93 @@
-<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07182a"><meta name="description" content="Mohamed Salaheldin - Independent Business & Project Advisor. Guided service explorer."><meta name="author" content="Mohamed Salaheldin"><meta name="copyright" content="© 2026 Mohamed Salaheldin Advisory. All rights reserved."><title>Mohamed Salaheldin | Advisory Service Explorer</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="hotfix.css"><link rel="stylesheet" href="polish-small.css"></head><body>
-<div class="topbar"><div class="wrap inner"><div class="brand"><div class="mark">MS</div><div><b>Mohamed Salaheldin</b><small>Independent Business & Project Advisor</small></div></div><div class="actions"><button class="pill active" data-lang="en">EN</button><button class="pill" data-lang="ar">ع</button><button class="pill" data-lang="both">EN | ع</button></div></div></div>
-<section class="hero"><div class="wrap grid"><div><div class="eyebrow" data-i18n="eyebrow">Guided Advisory Service Explorer</div><h1 data-i18n-html="heroTitle">Find the gap.<br><span>See what can help.</span></h1><p data-i18n="heroText">Choose your organization type and the problem you are actually facing. You will see only the first services most relevant to that situation - not a catalogue of everything I can do.</p><div class="cta"><a class="btn primary" href="#diagnostic" data-i18n="start">Start the diagnostic</a><a class="btn ghost" href="#library" data-i18n="browse">Browse full library</a></div></div><div class="portrait" aria-label="Mohamed Salaheldin"><span>MS</span></div></div></section>
-<section id="diagnostic" class="section"><div class="wrap"><div class="head"><div class="kicker" data-i18n="stepOne">Step 1</div><h2 data-i18n="who">Who are you?</h2><p data-i18n="whoSub">This keeps the recommendations relevant to the way your organization actually works.</p></div><div class="steps"><div class="step"><b>01</b><strong data-i18n="step1Title">Your organization</strong><small data-i18n="step1Sub">Choose one role.</small></div><div class="step"><b>02</b><strong data-i18n="step2Title">Your pressure point</strong><small data-i18n="step2Sub">Choose what is happening now.</small></div><div class="step"><b>03</b><strong data-i18n="step3Title">First actions</strong><small data-i18n="step3Sub">See 3-5 services to consider first.</small></div></div><div id="roleCards" class="cards"></div></div></section>
-<section id="challengeSection" class="section alt hidden"><div class="wrap"><div class="head"><div class="kicker" data-i18n="stepTwo">Step 2</div><h2 data-i18n="happening">What is happening?</h2><p data-i18n="happeningSub">Pick the issue that best describes the current problem. You can change it anytime.</p></div><div id="challengeCards" class="challenge-grid"></div></div></section>
-<section id="resultsSection" class="section hidden"><div class="wrap"><div class="resultbar"><div><div class="eyebrow" style="color:var(--copper)" data-i18n="recommended">Recommended First Actions</div><h3 id="resultTitle"></h3><p id="resultSub"></p></div><button class="btn primary" onclick="resetDiagnostic()" data-i18n="startOver">Start over</button></div><div id="serviceResults" class="service-grid"></div><div style="text-align:center;margin-top:24px"><a class="btn" style="background:var(--navy);color:#fff" href="#library" data-i18n="seeRelated">See the full service library</a></div></div></section>
-<section id="library" class="section alt"><div class="wrap"><div class="head"><div class="kicker" data-i18n="libraryKicker">Full Capability Library</div><h2 data-i18n="libraryTitle">Need to look for something specific?</h2><p data-i18n="librarySub">Search the full library by service name, problem or outcome. The guided diagnostic above is still the fastest route.</p></div><div class="library-controls"><input id="search" class="search" type="search" placeholder="Search services, problems or outcomes"><select id="categoryFilter" class="select"><option value="">All categories</option></select></div><div id="libraryGrid" class="library-grid"></div></div></section>
-<footer class="footer"><div class="wrap inner"><div><b>Mohamed Salaheldin Advisory</b><p data-i18n="footerLine">Senior expertise for the critical points where businesses and projects lose time, cost, control and opportunity.</p></div><div class="footer-links"><a href="mailto:eng.msalaheldin@yahoo.com">Email</a><a id="linkedinLink" target="_blank" rel="noopener">LinkedIn</a><a id="ksaWa" target="_blank" rel="noopener">KSA WhatsApp</a><a id="egyptWa" target="_blank" rel="noopener">Egypt WhatsApp</a></div></div></footer>
-<script src="data1.js"></script><script src="data2.js"></script><script src="data3.js"></script><script src="data4.js"></script><script src="app.js"></script><script src="hotfix.js"></script><script src="polish.js"></script></body></html>
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07182a">
+<meta name="description" content="Mohamed Salaheldin - Independent Business & Project Advisor. Guided advisory service explorer.">
+<meta name="author" content="Mohamed Salaheldin">
+<meta name="copyright" content="© 2026 Mohamed Salaheldin Advisory. All rights reserved.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="referrer" content="no-referrer">
+<title>Mohamed Salaheldin | Advisory Service Explorer</title>
+<link rel="stylesheet" href="v12/styles.css?v=12">
+<style>.hero{background-image:url('v12/hero.svg')!important}</style></head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top" aria-label="Mohamed Salaheldin Advisory home">
+      <span class="brand-mark">MS</span>
+      <span><b data-i18n="brandName">Mohamed Salaheldin</b><small data-i18n="brandRole">Independent Business & Project Advisor</small></span>
+    </a>
+    <div class="top-actions" aria-label="Language selector">
+      <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+      <button class="lang-btn" data-lang="ar" aria-label="العربية">ع</button>
+      <button class="lang-btn" data-lang="both" aria-label="English and Arabic">EN | ع</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow" data-i18n="eyebrow">Guided Advisory Service Explorer</div>
+      <h1 data-i18n-html="heroTitle">Find the real gap.<br><span>See what can help.</span></h1>
+      <p data-i18n="heroText">Choose your organization type and the problem you are actually facing. The explorer shows the first services most relevant to the situation - not a catalogue of everything I can do.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#diagnostic" data-i18n="start">Start the diagnostic</a>
+        <a class="btn glass" href="#library" data-i18n="browse">Browse the service library</a>
+      </div>
+      <div class="framework"><b data-i18n="framework">Gap-to-Action Framework™</b><span data-i18n="frameworkPromise">Diagnose the gap. Solve the live case. Transfer the method.</span></div>
+    </div>
+    <div class="hero-person">
+      <div class="portrait-shell"><img src="assets/profile.jpg" alt="Mohamed Salaheldin" width="720" height="720" decoding="async" fetchpriority="high"></div>
+      <div class="portrait-caption"><b>23+</b><span data-i18n="years">Years of cross-functional experience</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="diagnostic" class="section diagnostic">
+  <div class="wrap">
+    <div class="section-head"><span class="kicker" data-i18n="stepOne">Step 1</span><h2 data-i18n="who">Who are you?</h2><p data-i18n="whoSub">Choose the organization type so the recommendations reflect the way your business or project actually works.</p></div>
+    <div class="journey" aria-label="Three-step diagnostic"><div><b>01</b><strong data-i18n="step1Title">Your organization</strong><small data-i18n="step1Sub">Choose one role.</small></div><div><b>02</b><strong data-i18n="step2Title">Your pressure point</strong><small data-i18n="step2Sub">Choose what is happening now.</small></div><div><b>03</b><strong data-i18n="step3Title">First actions</strong><small data-i18n="step3Sub">See 3-5 services to consider first.</small></div></div>
+    <div id="roleCards" class="role-grid"></div>
+  </div>
+</section>
+
+<section id="challengeSection" class="section section-soft hidden">
+  <div class="wrap"><div class="section-head"><span class="kicker" data-i18n="stepTwo">Step 2</span><h2 data-i18n="happening">What is happening?</h2><p data-i18n="happeningSub">Choose the description closest to the current situation. You can change it at any time.</p></div><div id="challengeCards" class="challenge-grid"></div></div>
+</section>
+
+<section id="resultsSection" class="section hidden">
+  <div class="wrap">
+    <div class="results-head"><div><span class="kicker" data-i18n="recommended">Recommended First Actions</span><h2 id="resultTitle"></h2><p id="resultSub"></p></div><button class="btn secondary" id="resetBtn" data-i18n="startOver">Start over</button></div>
+    <div id="serviceResults" class="service-grid"></div>
+    <div class="center"><a class="btn dark" href="#library" data-i18n="seeRelated">See the full service library</a></div>
+  </div>
+</section>
+
+<section id="signature" class="section signature-section">
+  <div class="wrap signature-card"><div><span class="kicker" data-i18n="signatureLabel">Signature Service</span><h2 data-i18n="signatureTitle">Interactive Advisory Workshops & Live Problem-Solving Labs</h2><p data-i18n="signatureText">Not lectures. Your team brings a real tender, negotiation, pricing, procurement, supply-chain or workflow case, and the session is used to diagnose it, challenge assumptions, build the solution and agree the next actions.</p><div class="lab-flow"><span data-i18n="diagnose">Diagnose</span><span data-i18n="challenge">Challenge</span><span data-i18n="solve">Solve</span><span data-i18n="act">Act</span></div></div><a class="btn primary" id="labsContact" target="_blank" rel="noopener" data-i18n="discussLab">Discuss a live workshop</a></div>
+</section>
+
+<section id="library" class="section section-soft">
+  <div class="wrap">
+    <div class="section-head"><span class="kicker" data-i18n="libraryKicker">Full Capability Library</span><h2 data-i18n="libraryTitle">Looking for a specific service or problem?</h2><p data-i18n="librarySub">Search by the service, the problem or the outcome. The guided diagnostic above remains the fastest route.</p></div>
+    <div class="library-controls"><input id="search" class="search" type="search" autocomplete="off" placeholder="Search services, problems or outcomes"></div>
+    <div id="categoryChips" class="category-chips" aria-label="Service categories"></div>
+    <div id="libraryCount" class="library-count" aria-live="polite"></div>
+    <div id="libraryGrid" class="library-grid"></div>
+    <button id="libraryMore" class="btn dark library-more" hidden></button>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid"><div><b data-i18n="footerBrand">Mohamed Salaheldin Advisory</b><p data-i18n="footerLine">Senior expertise for the critical points where businesses and projects lose time, cost, control and opportunity.</p><small>© 2026 Mohamed Salaheldin Advisory. All rights reserved.</small></div><div class="footer-links"><a href="mailto:eng.msalaheldin@yahoo.com">Email</a><a id="linkedinLink" target="_blank" rel="noopener">LinkedIn</a><a id="ksaWa" target="_blank" rel="noopener">KSA WhatsApp</a><a id="egyptWa" target="_blank" rel="noopener">Egypt WhatsApp</a></div></div>
+</footer>
+
+<div id="serviceModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-panel"><button id="modalClose" class="modal-close" aria-label="Close">×</button><div id="modalContent"></div></div></div>
+<script src="v12/data.js?v=12"></script><script src="v12/app.js?v=12"></script>
+</body></html>
