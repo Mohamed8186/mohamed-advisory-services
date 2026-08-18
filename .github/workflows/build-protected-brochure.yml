@@ -4,9 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - asset-fix-20260817
+      - main
     paths:
       - 'brochure/profile.html'
+      - 'assets/profile.webp'
       - '.github/workflows/build-protected-brochure.yml'
 
 permissions:
@@ -27,89 +28,41 @@ jobs:
       - name: Install Python packages
         run: python -m pip install --upgrade weasyprint pymupdf 'qrcode[pil]'
 
-      - name: Generate QR, previews, flatten and protect the brochure
+      - name: Generate QR codes, previews, flatten, preserve links and protect
         run: |
           mkdir -p build/previews downloads
           python <<'PY'
-          import os, re, secrets
+          import os, secrets
           import fitz
           import qrcode
-          from weasyprint import HTML, CSS
+          from weasyprint import HTML
 
           site_url = 'https://mohamed8186.github.io/mohamed-advisory-services/'
+          whatsapp_url = 'https://wa.me/966573314344?text=Hello%20Mohamed%2C%20I%20would%20like%20to%20discuss%20an%20advisory%20requirement.'
           output = 'downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf'
 
-          qrcode.make(site_url).save('brochure/site-qr.png')
-          with open('brochure/profile.html', 'r', encoding='utf-8') as source_file:
-              html_text = source_file.read()
-          html_text = html_text.replace('../assets/profile.webp', 'assets/profile.webp')
-          html_text = html_text.replace('src="site-qr.png"', 'src="brochure/site-qr.png"')
-          html_text = re.sub(
-              r'<div class="disclaimer">.*?</div>',
-              '<div class="disclaimer">Services may be delivered with relevant specialists where required. | قد تُقدم بعض الخدمات بالتنسيق مع مختصين بحسب نطاق التكليف.</div>',
-              html_text,
-              flags=re.S,
-          )
-
-          compact_last_page = r'''
-          .page { break-inside: avoid; page-break-inside: avoid; }
-          .page:last-child { padding: 10mm 14mm; }
-          .page:last-child .page-title { margin-bottom: 3mm; padding-bottom: 2.5mm; }
-          .page:last-child .page-title h2 { font-size: 21px; }
-          .page:last-child .page-title .ar { font-size: 16px; }
-          .page:last-child .why-grid { grid-template-columns: 1.04fr .96fr; gap: 4mm; }
-          .page:last-child .why-list { gap: 2mm; }
-          .page:last-child .why { padding: 3mm; min-height: 27mm; }
-          .page:last-child .why b { font-size: 11.5px; margin-bottom: .8mm; }
-          .page:last-child .why p { font-size: 8.2px; line-height: 1.32; margin-bottom: .8mm; }
-          .page:last-child .modes { margin-top: 2.5mm; gap: 1.5mm; }
-          .page:last-child .modes span { font-size: 7.5px; padding: 1.2mm 2.6mm; }
-          .page:last-child .lab { padding: 4.5mm; border-radius: 4mm; }
-          .page:last-child .lab .eyebrow { font-size: 8px; }
-          .page:last-child .lab h2 { font-size: 17px; margin: 1.2mm 0; }
-          .page:last-child .lab .ar { font-size: 11px; margin-bottom: 2mm; }
-          .page:last-child .lab p { font-size: 8.3px; line-height: 1.38; margin-bottom: 1.5mm; }
-          .page:last-child .flow { margin: 2.5mm 0; gap: 1.3mm; }
-          .page:last-child .flow span { font-size: 7.2px; padding: 1.1mm 2.2mm; }
-          .page:last-child .cta-panel { margin-top: 3mm; padding: 3mm; grid-template-columns: 1fr 22mm; gap: 2.5mm; }
-          .page:last-child .cta-panel h3 { font-size: 13px; margin-bottom: .8mm; }
-          .page:last-child .cta-panel p { font-size: 7.8px; line-height: 1.34; margin-bottom: .8mm; }
-          .page:last-child .badge { font-size: 7.5px; padding: 1.3mm 2.8mm; }
-          .page:last-child .qr { width: 21mm; height: 21mm; }
-          .page:last-child .disclaimer {
-              position: absolute;
-              left: 14mm;
-              right: 14mm;
-              bottom: 8mm;
-              margin: 0;
-              font-size: 5.7px;
-              line-height: 1.15;
-              white-space: nowrap;
-              overflow: hidden;
-          }
-          .page:last-child .footer { left: 14mm; right: 14mm; bottom: 3.5mm; font-size: 6.5px; }
-          '''
-
-          HTML(string=html_text, base_url=os.getcwd()).write_pdf(
-              'build/source.pdf',
-              stylesheets=[CSS(string=compact_last_page)]
-          )
+          qrcode.make(site_url).save('brochure/website_qr.png')
+          qrcode.make(whatsapp_url).save('brochure/whatsapp_qr.png')
+          HTML(filename='brochure/profile.html', base_url=os.getcwd()).write_pdf('build/source.pdf')
 
           source = fitz.open('build/source.pdf')
           flat = fitz.open()
-          matrix = fitz.Matrix(1.55, 1.55)
+          matrix = fitz.Matrix(2.0, 2.0)
           for index, source_page in enumerate(source, start=1):
               pix = source_page.get_pixmap(matrix=matrix, alpha=False)
               pix.save(f'build/previews/page-{index}.png')
               page = flat.new_page(width=source_page.rect.width, height=source_page.rect.height)
               page.insert_image(source_page.rect, pixmap=pix)
+              for link in source_page.get_links():
+                  if link.get('uri') and link.get('from'):
+                      page.insert_link({'kind': fitz.LINK_URI, 'from': link['from'], 'uri': link['uri']})
 
           flat.set_metadata({
-              'title': 'Mohamed Salaheldin Advisory Profile',
+              'title': 'Triple E | Mohamed Salaheldin Advisory Profile',
               'author': 'Mohamed Salaheldin',
-              'subject': 'Independent Business & Project Advisory Services',
-              'keywords': 'Tendering, Procurement, Supply Chain, Contracts, Project Management, Advisory',
-              'creator': 'Mohamed Salaheldin Advisory'
+              'subject': 'Principal-led business, project, commercial and supply chain advisory',
+              'keywords': 'Triple E, Engineering Excellence Experts, Tendering, Procurement, Supply Chain, Contracts, Project Recovery, Advisory',
+              'creator': 'Triple E - Engineering Excellence Experts'
           })
           owner_password = secrets.token_hex(20)
           flat.save(
@@ -128,9 +81,10 @@ jobs:
           check = fitz.open(output)
           if check.needs_pass:
               check.authenticate('')
-          assert check.page_count == 4, check.page_count
+          assert check.page_count == 2, check.page_count
           assert size > 100000, size
-          print(f'Protected brochure created: {size} bytes, {check.page_count} pages')
+          assert len(check[1].get_links()) >= 3, len(check[1].get_links())
+          print(f'Protected brochure created: {size} bytes, {check.page_count} pages, {len(check[1].get_links())} active links on page 2')
           check.close()
           PY
 
@@ -150,5 +104,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf
-          git commit -m 'Generate protected advisory brochure PDF' || exit 0
+          git commit -m 'Generate protected Triple E two-page brochure PDF' || exit 0
           git push origin HEAD:${GITHUB_REF_NAME}
