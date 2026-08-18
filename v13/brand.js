@@ -27,6 +27,17 @@
   };
   Object.assign(UI.en,extra.en); Object.assign(UI.ar,extra.ar);
   const focusMap={tender:'tender',recovery:'recovery',procurement:'procurement'};
+  function addSeal(){
+    const person=document.querySelector('.hero-person-v13');
+    const lockup=person?.querySelector('.engraved-lockup');
+    if(person && lockup && !person.querySelector('.brand-seal-large')){
+      const seal=document.createElement('img');
+      seal.className='brand-seal-large';
+      seal.src='assets/triple-e-seal.svg?v=14.0';
+      seal.alt='Triple E Engineering Excellence Experts seal';
+      person.insertBefore(seal,lockup);
+    }
+  }
   function wirePriorities(){
     document.querySelectorAll('.priority-card').forEach(card=>{
       const go=()=>{
@@ -39,5 +50,6 @@
     });
   }
   applyLang();
+  addSeal();
   wirePriorities();
 })();
