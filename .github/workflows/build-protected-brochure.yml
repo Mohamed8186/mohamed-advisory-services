@@ -47,6 +47,9 @@ jobs:
 
           with open('brochure/profile.html', 'r', encoding='utf-8') as f:
               html_text = f.read()
+          html_text = html_text.replace('../assets/profile.webp', 'assets/profile.webp')
+          html_text = html_text.replace('src="website_qr.png"', 'src="brochure/website_qr.png"')
+          html_text = html_text.replace('src="whatsapp_qr.png"', 'src="brochure/whatsapp_qr.png"')
 
           replacements = {
               '<div class="mark">EEE</div>': '<img class="mark mark-seal" src="assets/triple-e-seal.svg" alt="Triple E seal">',
@@ -59,7 +62,6 @@ jobs:
               'Three high-impact engagements': 'Three high-impact solutions',
               'ثلاثة مجالات تمثل جانبًا كبيرًا من المشكلات الواقعية وحجم العمل': 'ثلاثة حلول رئيسية تغطي جانبًا كبيرًا من المشكلات الواقعية وحجم العمل',
               '<div class="engrave">Triple E · Engineering Excellence Experts</div>': '<img class="big-seal-img" src="assets/triple-e-seal.svg" alt="Triple E Engineering Excellence Experts seal"><div class="engrave metal-engrave">Triple E · Engineering Excellence Experts</div>',
-              'Triple E operates through one coordinated delivery structure. Mohamed Salaheldin leads the client relationship, priorities, critical reviews and final recommendations, while the workstreams are managed as one multidisciplinary team.': 'Triple E operates through one coordinated delivery structure. Mohamed Salaheldin leads the client relationship, priorities, critical reviews and final recommendations, while the workstreams are managed as one multidisciplinary team.',
           }
           for old, new in replacements.items():
               html_text = html_text.replace(old, new)
