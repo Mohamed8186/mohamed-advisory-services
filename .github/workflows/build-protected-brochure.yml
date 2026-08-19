@@ -8,7 +8,6 @@ on:
     paths:
       - 'brochure/profile.html'
       - 'assets/profile.webp'
-      - 'assets/triple-e-seal.svg'
       - '.github/workflows/build-protected-brochure.yml'
 
 permissions:
@@ -31,53 +30,20 @@ jobs:
 
       - name: Generate QR codes, previews, flatten, preserve links and protect
         run: |
-          mkdir -p build/previews downloads
+          mkdir -p build/previews downloads brochure
           python <<'PY'
           import os, secrets
           import fitz
           import qrcode
-          from weasyprint import HTML, CSS
+          from weasyprint import HTML
 
           site_url = 'https://mohamed8186.github.io/mohamed-advisory-services/'
-          whatsapp_url = 'https://wa.me/966573314344?text=Hello%20Mohamed%2C%20I%20would%20like%20to%20discuss%20an%20advisory%20requirement.'
+          whatsapp_url = 'https://wa.me/966573314344'
           output = 'downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf'
 
           qrcode.make(site_url).save('brochure/website_qr.png')
           qrcode.make(whatsapp_url).save('brochure/whatsapp_qr.png')
-
-          with open('brochure/profile.html', 'r', encoding='utf-8') as f:
-              html_text = f.read()
-          html_text = html_text.replace('../assets/profile.webp', 'assets/profile.webp')
-          html_text = html_text.replace('src="website_qr.png"', 'src="brochure/website_qr.png"')
-          html_text = html_text.replace('src="whatsapp_qr.png"', 'src="brochure/whatsapp_qr.png"')
-
-          replacements = {
-              '<div class="mark">EEE</div>': '<img class="mark mark-seal" src="assets/triple-e-seal.svg" alt="Triple E seal">',
-              'Principal-Led · Specialist-Enabled': 'Senior-Led · Integrated Multidisciplinary Delivery',
-              'Founder & Principal Advisor · Assignment Lead': 'Founder & Principal Advisor',
-              'محمد صلاح الدين · المستشار الرئيسي وقائد التكليف': 'محمد صلاح الدين · المؤسس والمستشار الرئيسي',
-              'Each assignment is led directly by Mohamed and delivered through the Triple E specialist expertise network.': 'Every project is led directly by Mohamed Salaheldin and delivered as one coordinated multidisciplinary team with a single point of accountability.',
-              'يقود محمد كل تكليف مباشرة، ويتم التنفيذ من خلال شبكة Triple E من الخبرات المتخصصة.': 'يقود محمد صلاح الدين كل مشروع مباشرة، وتُدار مسارات العمل كفريق تنفيذ واحد متعدد التخصصات بمنهج موحد ومسؤولية واضحة أمام العميل.',
-              'مع قيادة مباشرة للتكليف وربط الخبرات المتخصصة في حل واحد متكامل.': 'بقيادة مباشرة وتنفيذ منسق متعدد التخصصات ضمن مسؤولية واضحة أمام العميل.',
-              'Three high-impact engagements': 'Three high-impact solutions',
-              'ثلاثة مجالات تمثل جانبًا كبيرًا من المشكلات الواقعية وحجم العمل': 'ثلاثة حلول رئيسية تغطي جانبًا كبيرًا من المشكلات الواقعية وحجم العمل',
-              '<div class="engrave">Triple E · Engineering Excellence Experts</div>': '<img class="big-seal-img" src="assets/triple-e-seal.svg" alt="Triple E Engineering Excellence Experts seal"><div class="engrave metal-engrave">Triple E · Engineering Excellence Experts</div>',
-          }
-          for old, new in replacements.items():
-              html_text = html_text.replace(old, new)
-
-          override_css = r'''
-          .stamp{border:1px solid rgba(235,188,146,.78)!important;background:linear-gradient(135deg,#744227 0%,#c98e5c 24%,#8b5231 50%,#dca875 74%,#734226 100%)!important;color:#fff3e8!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 3px rgba(45,22,9,.34),0 2mm 6mm rgba(0,0,0,.2)!important;text-shadow:0 -1px 0 rgba(49,25,10,.9)}
-          .mark-seal{width:15mm!important;height:15mm!important;padding:0!important;border:0!important;border-radius:50%!important;background:none!important;box-shadow:0 2mm 6mm rgba(0,0,0,.28)!important;object-fit:contain}
-          .portrait{padding:1.7mm!important;border:0!important;background:linear-gradient(135deg,#6b3d23 0%,#dfa978 22%,#85502f 47%,#f0c69a 68%,#754327 100%)!important;box-shadow:inset 0 0 0 .8mm rgba(55,26,11,.38),inset 0 0 0 1.2mm rgba(255,236,216,.12),0 6mm 14mm rgba(0,0,0,.3)!important}
-          .portrait-name{display:inline-block;margin-top:1.5mm;padding:1.9mm 3.4mm;border-radius:2mm;background:linear-gradient(135deg,#754327 0%,#c88b58 25%,#89502f 52%,#dca774 76%,#714126 100%);border:1px solid rgba(236,190,149,.76);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 3px rgba(45,22,9,.32),0 2mm 6mm rgba(0,0,0,.22);color:#fff2e7!important;text-shadow:0 -1px 0 rgba(50,24,10,.88)}
-          .portrait-role{margin-top:1mm!important}.portrait-model{line-height:1.5!important;max-width:67mm;margin-left:auto!important;margin-right:auto!important}
-          .big-seal-img{display:block;width:32mm;height:32mm;margin:2mm auto 0;filter:drop-shadow(0 3mm 6mm rgba(0,0,0,.28))}
-          .metal-engrave{border:1px solid rgba(235,188,146,.72)!important;border-radius:2mm!important;padding:1.6mm 3.4mm!important;background:linear-gradient(135deg,#754327 0%,#c88b58 25%,#89502f 52%,#dca774 76%,#714126 100%)!important;color:#fff0e3!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 3px rgba(45,22,9,.34),0 2mm 6mm rgba(0,0,0,.2)!important;text-shadow:0 -1px 0 rgba(49,25,10,.9)}
-          .flag-head{border-bottom:1px solid #9f633c}.flag-head:after{content:"";display:block;height:.8mm;background:linear-gradient(90deg,#78452a,#dda575,#7c472b);margin:3mm -4mm -4mm}
-          '''
-
-          HTML(string=html_text, base_url=os.getcwd()).write_pdf('build/source.pdf', stylesheets=[CSS(string=override_css)])
+          HTML(filename='brochure/profile.html', base_url=os.getcwd()).write_pdf('build/source.pdf')
 
           source = fitz.open('build/source.pdf')
           flat = fitz.open()
@@ -92,15 +58,24 @@ jobs:
                       page.insert_link({'kind': fitz.LINK_URI, 'from': link['from'], 'uri': link['uri']})
 
           flat.set_metadata({
-              'title': 'Triple E | Mohamed Salaheldin Advisory Profile',
+              'title': 'Engineering Excellence Experts | Mohamed Salaheldin Advisory Profile',
               'author': 'Mohamed Salaheldin',
               'subject': 'Senior-led integrated multidisciplinary business and project advisory',
-              'keywords': 'Triple E, Engineering Excellence Experts, Tendering, Procurement, Supply Chain, Contracts, Project Recovery, Advisory',
-              'creator': 'Triple E - Engineering Excellence Experts'
+              'keywords': 'Engineering Excellence Experts, Tendering, Procurement, Supply Chain, Contracts, Project Recovery, Consultant Support, Advisory',
+              'creator': 'Engineering Excellence Experts'
           })
           owner_password = secrets.token_hex(20)
-          flat.save(output,encryption=fitz.PDF_ENCRYPT_AES_256,owner_pw=owner_password,user_pw='',permissions=0,garbage=4,deflate=True)
-          flat.close(); source.close()
+          flat.save(
+              output,
+              encryption=fitz.PDF_ENCRYPT_AES_256,
+              owner_pw=owner_password,
+              user_pw='',
+              permissions=0,
+              garbage=4,
+              deflate=True
+          )
+          flat.close()
+          source.close()
 
           size = os.path.getsize(output)
           check = fitz.open(output)
@@ -129,5 +104,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add downloads/Mohamed-Salaheldin-Advisory-Profile-Protected.pdf
-          git commit -m 'Generate protected Triple E copper engraved two-page brochure PDF' || exit 0
+          git commit -m 'Generate protected Engineering Excellence Experts two-page brochure PDF' || exit 0
           git push origin HEAD:${GITHUB_REF_NAME}
